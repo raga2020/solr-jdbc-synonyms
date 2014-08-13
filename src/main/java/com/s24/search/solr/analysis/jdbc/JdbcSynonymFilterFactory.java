@@ -15,7 +15,7 @@ public class JdbcSynonymFilterFactory extends SynonymFilterFactory {
     * Database based reader.
     */
    private final JdbcReader reader;
-   
+
    /**
     * Constructor.
     * 
@@ -23,11 +23,24 @@ public class JdbcSynonymFilterFactory extends SynonymFilterFactory {
     *           Configuration.
     */
    public JdbcSynonymFilterFactory(Map<String, String> args) {
-      super(args);
-      
+      super(setFixedSynonymFile(args));
+
       String name = require(args, "jndi-name");
       String sql = require(args, "sql");
       reader = new JndiJdbcReader(name, sql);
+   }
+
+   /**
+    * Set synonyms file to one fixed name. This is needed because our patched
+    * resource loader should load the synonyms exactly once.
+    * 
+    * @param args
+    *           Configuration.
+    * @return Configuration.
+    */
+   private static Map<String, String> setFixedSynonymFile(Map<String, String> args) {
+      args.put("synonyms", "database");
+      return args;
    }
 
    @Override
