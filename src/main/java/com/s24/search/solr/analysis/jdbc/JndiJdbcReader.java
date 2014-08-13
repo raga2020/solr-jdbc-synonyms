@@ -4,7 +4,6 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.naming.Context;
@@ -27,13 +26,34 @@ import com.google.common.collect.Lists;
  * @author Shopping24 GmbH, Torsten Bøgh Köster (@tboeghk)
  */
 public class JndiJdbcReader implements JdbcReader {
-
+   /**
+    * Logger.
+    */
    private final Logger logger = LoggerFactory.getLogger(getClass());
 
-   private final String sql;
+   /**
+    * JNDI name.
+    */
    private final String jndiName;
+   
+   /**
+    * SQL.
+    */
+   private final String sql;
+   
+   /**
+    * The data source.
+    */
    private DataSource dataSource;
 
+   /**
+    * Constructor.
+    * 
+    * @param jndiName
+    *           JNDI name.
+    * @param sql
+    *           SQL.
+    */
    public JndiJdbcReader(String jndiName, String sql) {
       Preconditions.checkNotNull(jndiName);
       Preconditions.checkNotNull(sql);
@@ -77,7 +97,7 @@ public class JndiJdbcReader implements JdbcReader {
          List<String> content = runner.query(sql, new ResultSetHandler<List<String>>() {
             @Override
             public List<String> handle(ResultSet rs) throws SQLException {
-               ArrayList<String> result = Lists.newArrayList();
+               List<String> result = Lists.newArrayList();
                while (rs.next()) {
                   result.add(rs.getString(1));
                }
