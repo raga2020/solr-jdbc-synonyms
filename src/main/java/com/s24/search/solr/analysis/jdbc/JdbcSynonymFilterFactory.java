@@ -25,9 +25,9 @@ public class JdbcSynonymFilterFactory extends SynonymFilterFactory {
    public JdbcSynonymFilterFactory(Map<String, String> args) {
       super(args);
       
-      // TODO markus 2014-08-13: Instantiate concrete jdbc reader.
-      String url = require(args, "url");
-      reader = null;
+      String name = require(args, "jndi-name");
+      String sql = require(args, "sql");
+      reader = new JndiJdbcReader(name, sql);
    }
 
    @Override
