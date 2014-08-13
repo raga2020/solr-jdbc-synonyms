@@ -15,4 +15,6 @@ A Solr synonym filter for reading synonyms out of JDBC.
 
 ## Configuring the synonym filter
 
+## License
+
 This project is licensed under the [Apache License, Version 2](http://www.apache.org/licenses/LICENSE-2.0.html).
