@@ -3,11 +3,32 @@ solr-jdbc-synonyms
 
 ![travis ci build status](https://travis-ci.org/shopping24/solr-jdbc-synonyms.png)
 
-A Solr synonym filter for reading synonyms out of JDBC.
+A Solr synonym filter for reading synonyms out of JDBC. You have to manage your Datasource by the famous [JNDI-Interface](http://de.wikipedia.org/wiki/Java_Naming_and_Directory_Interface).
 
 ## Installing the synonym filter
 
 ## Configuring the synonym filter
+
+As an example you can simply put a new fieldtype in your Solr schema. The minimum required arguments are:
+	
+* sql: Just type your select statement. The output for each line has to be in the solr-synonym-format: x=>y or x=>v,w,x,y,z …. The following statement will work in postgres: 
+*SELECT concat(left, '=>', array\_to\_string(right, ',')) as line FROM synonyms;*
+	
+* jndiName: As the name said. Your JNDI name.
+* note: all other notes of the SolrSynonymFilter will work as expected.
+
+A complete fieldtype example:
+
+	<fieldType name="synonym_test" class="solr.TextField">
+         <analyzer>
+            <tokenizer class="solr.PatternTokenizerFactory" pattern="[\s]+" />
+            <filter class="com.s24.search.solr.analysis.jdbc.JdbcSynonymFilterFactory"   
+               sql="SELECT concat(left, '=>', array_to_string(right, ',')) as line FROM synonyms;" 
+               jndiName="jdbc/jndiname"
+               ignoreCase="false"
+               expand="true" />
+         </analyzer>
+      </fieldType>
 
 ## Building the project
 
