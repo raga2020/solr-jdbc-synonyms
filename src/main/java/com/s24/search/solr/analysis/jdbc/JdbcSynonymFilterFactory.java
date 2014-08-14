@@ -16,6 +16,8 @@ public class JdbcSynonymFilterFactory extends SynonymFilterFactory {
     */
    private final JdbcReader reader;
 
+   private static ThreadLocal<JndiJdbcReader> transfer = new ThreadLocal<>();
+
    /**
     * Constructor.
     * 
@@ -23,11 +25,9 @@ public class JdbcSynonymFilterFactory extends SynonymFilterFactory {
     *           Configuration.
     */
    public JdbcSynonymFilterFactory(Map<String, String> args) {
-      super(setFixedSynonymFile(args));
-
-      String name = require(args, "jndi-name");
-      String sql = require(args, "sql");
-      reader = new JndiJdbcReader(name, sql);
+      super(readArguments(args));
+      reader = transfer.get();
+      transfer.remove();
    }
 
    /**
@@ -38,8 +38,12 @@ public class JdbcSynonymFilterFactory extends SynonymFilterFactory {
     *           Configuration.
     * @return Configuration.
     */
-   private static Map<String, String> setFixedSynonymFile(Map<String, String> args) {
+   private static Map<String, String> readArguments(Map<String, String> args) {
       args.put("synonyms", "database");
+
+      String name = args.remove("jndiName");
+      String sql = args.remove("sql");
+      transfer.set(new JndiJdbcReader(name, sql));
       return args;
    }
 
