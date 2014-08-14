@@ -40,6 +40,8 @@ Some link regarding deployment:
 * http://central.sonatype.org/pages/apache-maven.html
 * http://central.sonatype.org/pages/working-with-pgp-signatures.html#generating-a-key-pair
 * http://maven.apache.org/guides/mini/guide-encryption.html
+* http://central.sonatype.org/pages/releasing-the-deployment.html
+* https://oss.sonatype.org/#stagingRepositories
 
 ## License
 
