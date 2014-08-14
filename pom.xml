@@ -17,7 +17,7 @@
 	<scm>
 		<connection>scm:git:git@github.com:shopping24/solr-jdbc-synonyms.git</connection>
 		<developerConnection>scm:git:git@github.com:shopping24/solr-jdbc-synonyms.git</developerConnection>
-		<url>https://github.com/shopping24/solr-jdbc-synonyms.git</url>
+		<url>https://github.com/shopping24/solr-jdbc-synonyms</url>
 		<tag>HEAD</tag>
 	</scm>
 	<issueManagement>
@@ -35,6 +35,24 @@
 			<email>torsten.koester@s24.com</email>
 			<roles>
 				<role>owner</role>
+				<role>developer</role>
+			</roles>
+			<timezone>+1</timezone>
+		</developer>
+		<developer>
+			<id>tkaessmann</id>
+			<name>Tobias Kaessmann</name>
+			<email>tobias.kaessmann@s24.com</email>
+			<roles>
+				<role>developer</role>
+			</roles>
+			<timezone>+1</timezone>
+		</developer>
+		<developer>
+			<id>markus-s24</id>
+			<name>Markus Heiden</name>
+			<email>markus.heiden@s24.com</email>
+			<roles>
 				<role>developer</role>
 			</roles>
 			<timezone>+1</timezone>
