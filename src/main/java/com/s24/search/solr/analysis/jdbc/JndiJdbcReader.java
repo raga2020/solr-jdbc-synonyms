@@ -4,6 +4,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.io.Reader;
 import java.io.StringReader;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -89,8 +90,13 @@ public class JndiJdbcReader implements JdbcReader {
       try {
          Context ctx = new InitialContext();
          LOGGER.info("Looking up data source {} in JNDI.", jndiName);
-         this.dataSource = (DataSource) ctx.lookup(jndiName);
+         dataSource = (DataSource) ctx.lookup(jndiName);
          ctx.close();
+
+         try (Connection connection = dataSource.getConnection()) {
+            // Just get the connection to check if data source parameters are configured correctly.
+         }
+
       } catch (NameNotFoundException e) {
          LOGGER.error("Data source {} not found.", jndiName, e);
          if (!ignore) {
@@ -102,6 +108,11 @@ public class JndiJdbcReader implements JdbcReader {
       } catch (ClassCastException e) {
          LOGGER.error("The JNDI resource {} is no data source.", jndiName, e);
          throw new IllegalArgumentException("The JNDI resource is no data source.", e);
+      } catch (SQLException e) {
+         LOGGER.error("Failed to connect to database of data source {}.", jndiName, e);
+         if (!ignore) {
+            throw new IllegalArgumentException("Failed to connect to the database.", e);
+         }
       }
    }
 
