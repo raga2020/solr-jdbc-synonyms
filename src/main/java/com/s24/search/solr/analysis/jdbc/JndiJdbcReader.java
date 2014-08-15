@@ -111,7 +111,7 @@ public class JndiJdbcReader implements JdbcReader {
     */
    @Override
    public Reader getReader() {
-      if (dataSource != null) {
+      if (dataSource == null) {
          if (ignore) {
             return new StringReader("");
          }
