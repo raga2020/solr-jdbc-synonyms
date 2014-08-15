@@ -15,7 +15,7 @@ public class JdbcSynonymFilterFactory extends SynonymFilterFactory {
    /**
     * Parameter: JNDI name of data source.
     */
-   public static final String IGNORE_PARAM = "ignoreMissingDatabase";
+   public static final String JNDI_NAME_PARAM = "jndiName";
 
    /**
     * Parameter: SQL to load synonyms.
@@ -25,7 +25,7 @@ public class JdbcSynonymFilterFactory extends SynonymFilterFactory {
    /**
     * Parameter: Ignore a missing database?.
     */
-   public static final String JNDI_NAME_PARAM = "jndiName";
+   public static final String IGNORE_PARAM = "ignoreMissingDatabase";
 
    /**
     * {@link Charset} to encode synonym database with.
