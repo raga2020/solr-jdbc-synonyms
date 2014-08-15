@@ -92,11 +92,6 @@ public class JndiJdbcReader implements JdbcReader {
          LOGGER.info("Looking up data source {} in JNDI.", jndiName);
          dataSource = (DataSource) ctx.lookup(jndiName);
          ctx.close();
-
-         try (Connection connection = dataSource.getConnection()) {
-            // Just get the connection to check if data source parameters are configured correctly.
-         }
-
       } catch (NameNotFoundException e) {
          LOGGER.error("Data source {} not found.", jndiName, e);
          if (!ignore) {
@@ -108,10 +103,18 @@ public class JndiJdbcReader implements JdbcReader {
       } catch (ClassCastException e) {
          LOGGER.error("The JNDI resource {} is no data source.", jndiName, e);
          throw new IllegalArgumentException("The JNDI resource is no data source.", e);
-      } catch (SQLException e) {
-         LOGGER.error("Failed to connect to database of data source {}.", jndiName, e);
-         if (!ignore) {
-            throw new IllegalArgumentException("Failed to connect to the database.", e);
+      }
+
+      // Check database connection information of data source
+      if (dataSource != null) {
+         try (Connection connection = dataSource.getConnection()) {
+            // Just get the connection to check if data source parameters are configured correctly.
+         } catch (SQLException e) {
+            dataSource = null;
+            LOGGER.error("Failed to connect to database of data source {}.", jndiName, e);
+            if (!ignore) {
+               throw new IllegalArgumentException("Failed to connect to the database.", e);
+            }
          }
       }
    }
