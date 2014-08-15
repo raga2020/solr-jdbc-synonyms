@@ -8,7 +8,7 @@ from is injected via [JNDI](http://de.wikipedia.org/wiki/Java_Naming_and_Directo
 
 ## Installing the synonym filter (Apache Tomcat)
 
-* Place the `solr-jdbc-synonyms-<VERSION>-jar-with-dependencies.jar` in the `/lib` 
+* Place the [`solr-jdbc-synonyms-<VERSION>-jar-with-dependencies.jar`](https://github.com/shopping24/solr-jdbc-synonyms/releases/download/v1.0.0/solr-jdbc-synonyms-1.0.0-jar-with-dependencies.jar) in the `/lib` 
   directory of your Solr installation.
 * Place the JAR with the JDBC driver of your database in the `/lib` directory of your
   Tomcat.
