@@ -63,7 +63,8 @@ public class JdbcSynonymFilterFactory extends SynonymFilterFactory {
 
       String name = args.remove("jndiName");
       String sql = args.remove("sql");
-      return new JndiJdbcReader(name, sql);
+      String ignore = args.remove("ignoreMissingDatabase");
+      return new JndiJdbcReader(name, sql, "true".equals(ignore));
    }
 
    @Override
