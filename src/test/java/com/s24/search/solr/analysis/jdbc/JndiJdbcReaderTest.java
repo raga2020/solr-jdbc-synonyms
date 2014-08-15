@@ -29,8 +29,8 @@ public class JndiJdbcReaderTest {
 
    @Before
    public void setUp() throws Exception {
-      // Create HSQLDB instance
-      database = new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.HSQL).build();
+      // Create H2 database instance
+      database = new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2).build();
 
       // Add synonym table with some content
       JdbcTemplate template = new JdbcTemplate(database);
