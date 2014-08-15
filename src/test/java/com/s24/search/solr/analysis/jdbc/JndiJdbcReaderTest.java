@@ -48,7 +48,7 @@ public class JndiJdbcReaderTest {
     */
    @Test
    public void getReader() throws Exception {
-      Reader reader = new JndiJdbcReader("dataSource", "select * from synonyms", false).getReader();
+      Reader reader = new JndiJdbcReader("dataSource", "select synonyms from synonyms", false).getReader();
       StringWriter synonyms = new StringWriter();
       IOUtils.copy(reader, synonyms);
 

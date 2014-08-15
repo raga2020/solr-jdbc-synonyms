@@ -57,7 +57,7 @@ public class JdbcSynonymFilterFactoryTest extends LuceneTestCase {
       Map<String, String> args = new HashMap<>();
       args.put(AbstractAnalysisFactory.LUCENE_MATCH_VERSION_PARAM, Version.LUCENE_4_9.toString());
       args.put(JdbcSynonymFilterFactory.JNDI_NAME_PARAM, "java:comp/env/dataSource");
-      args.put(JdbcSynonymFilterFactory.SQL_PARAM, "select * from synonyms");
+      args.put(JdbcSynonymFilterFactory.SQL_PARAM, "select synonyms from synonyms");
 
       Reader input = new StringReader("test1 test2");
       // White space tokenizer, to lower case tokenizer.
