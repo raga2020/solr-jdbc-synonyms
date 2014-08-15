@@ -13,6 +13,21 @@ import org.apache.lucene.analysis.util.ResourceLoader;
  */
 public class JdbcSynonymFilterFactory extends SynonymFilterFactory {
    /**
+    * Parameter: JNDI name of data source.
+    */
+   public static final String IGNORE_PARAM = "ignoreMissingDatabase";
+
+   /**
+    * Parameter: SQL to load synonyms.
+    */
+   public static final String SQL_PARAM = "sql";
+
+   /**
+    * Parameter: Ignore a missing database?.
+    */
+   public static final String JNDI_NAME_PARAM = "jndiName";
+
+   /**
     * {@link Charset} to encode synonym database with.
     * Has to be the same as in the {@link SynonymFilterFactory}.
     */
@@ -61,9 +76,9 @@ public class JdbcSynonymFilterFactory extends SynonymFilterFactory {
       // This "file" will be loaded from the database by the JdbcResourceLoader.
       args.put("synonyms", JdbcResourceLoader.DATABASE);
 
-      String name = args.remove("jndiName");
-      String sql = args.remove("sql");
-      String ignore = args.remove("ignoreMissingDatabase");
+      String name = args.remove(JNDI_NAME_PARAM);
+      String sql = args.remove(SQL_PARAM);
+      String ignore = args.remove(IGNORE_PARAM);
       return new JndiJdbcReader(name, sql, "true".equals(ignore));
    }
 
