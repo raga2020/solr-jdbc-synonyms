@@ -1,21 +1,23 @@
 package com.s24.search.solr.analysis.jdbc;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 
 import org.apache.commons.io.input.ReaderInputStream;
-import org.apache.lucene.analysis.synonym.SynonymFilterFactory;
 import org.apache.lucene.analysis.util.ResourceLoader;
 
 /**
- * {@link ResourceLoader} which loads resources from a {@link JdbcReader}.
+ * {@link ResourceLoader} which loads a resource from a {@link JdbcReader}.
+ * All other operations are delegated to the parent resource loader.
  */
 class JdbcResourceLoader implements ResourceLoader {
    /**
-    * Default {@link Charset}. Has to be the same as in the {@link SynonymFilterFactory}.
+    * Name of database resource.
     */
-   private static final Charset UTF8 = Charset.forName("UTF-8");
+   static final String DATABASE = "database";
 
    /**
     * {@link ResourceLoader} to delegate class loading to.
@@ -28,19 +30,33 @@ class JdbcResourceLoader implements ResourceLoader {
    private final JdbcReader reader;
 
    /**
+    * Encoding of database resource.
+    */
+   private final Charset charset;
+
+   /**
     * Constructor.
-    * 
+    *
+    * @param parent
+    *           Parent resource loader.
     * @param reader
     *           Database based reader.
+    * @param charset
+    *           {@link Charset} to encode database resource with, because resources are always input streams.
     */
-   public JdbcResourceLoader(ResourceLoader parent, JdbcReader reader) {
-      this.parent = parent;
-      this.reader = reader;
+   public JdbcResourceLoader(ResourceLoader parent, JdbcReader reader, Charset charset) {
+      this.parent = checkNotNull(parent);
+      this.reader = checkNotNull(reader);
+      this.charset = checkNotNull(charset);
    }
 
    @Override
    public InputStream openResource(String resource) throws IOException {
-      return new ReaderInputStream(reader.getReader(), UTF8);
+      if (DATABASE.equals(resource)) {
+         return new ReaderInputStream(reader.getReader(), charset);
+      }
+
+      return parent.openResource(resource);
    }
 
    @Override

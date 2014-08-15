@@ -23,7 +23,7 @@ import com.google.common.collect.Lists;
 /**
  * A configurable {@linkplain JdbcReader} that executes a given sql statement on
  * a configured JNDI datasource.
- * 
+ *
  * @author Shopping24 GmbH, Torsten Bøgh Köster (@tboeghk)
  */
 public class JndiJdbcReader implements JdbcReader {
@@ -49,7 +49,7 @@ public class JndiJdbcReader implements JdbcReader {
 
    /**
     * Constructor.
-    * 
+    *
     * @param jndiName
     *           JNDI name.
     * @param sql
@@ -92,7 +92,6 @@ public class JndiJdbcReader implements JdbcReader {
     */
    @Override
    public Reader getReader() {
-
       if (!dataSource.isPresent()) {
          LOGGER.error("There is no correct datasource given. We will return no synonyms...");
          return new StringReader("");
@@ -100,7 +99,6 @@ public class JndiJdbcReader implements JdbcReader {
 
       QueryRunner runner = new QueryRunner(dataSource.get());
       try {
-
          // read lines off jdbc
          LOGGER.info("Querying for synonyms using {} ...", sql);
          List<String> content = runner.query(sql, new ResultSetHandler<List<String>>() {
