@@ -7,12 +7,14 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import org.apache.log4j.BasicConfigurator;
 import org.apache.lucene.analysis.MockTokenizer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.util.AbstractAnalysisFactory;
 import org.apache.lucene.analysis.util.ClasspathResourceLoader;
 import org.apache.lucene.util.LuceneTestCase;
+import org.apache.lucene.util.TestRuleLimitSysouts.Limit;
 import org.apache.lucene.util.Version;
 import org.junit.After;
 import org.junit.Before;
@@ -26,15 +28,18 @@ import org.springframework.mock.jndi.SimpleNamingContextBuilder;
 /**
  * Test for {@link JdbcSynonymFilterFactory}.
  */
+@Limit(bytes = 16384)
 public class JdbcSynonymFilterFactoryTest extends LuceneTestCase {
    /**
-    * Embedded database.
-    * Implements {@link DataSource}.
+    * Embedded database. Implements {@link DataSource}.
     */
    private EmbeddedDatabase database;
 
    @Before
    public void setUpDatabase() throws Exception {
+      BasicConfigurator.resetConfiguration();
+      BasicConfigurator.configure();
+
       // Create HSQLDB instance
       database = new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.HSQL).build();
 
