@@ -80,6 +80,10 @@ Then execute the release chain
     $ mvn org.codehaus.mojo:versions-maven-plugin:2.0:set -DgenerateBackupPoms=false -DnewVersion=$NEXT_VERSION
     $ git commit -a -m "pushes to release version $NEXT_VERSION"
     $ mvn clean deploy -P release
+    
+Log into [OSS](https://oss.sonatype.org/#stagingRepositories), look for the `coms24-XXXX` repository and
+close it. If all checks passed, increment to next development version:
+    
     $ git tag -a v$NEXT_VERSION -m "`curl -s http://whatthecommit.com/index.txt`"
     $ mvn org.codehaus.mojo:versions-maven-plugin:2.0:set -DgenerateBackupPoms=false -DnewVersion=$NEXT_DEVELOPMENT_VERSION
     $ git commit -a -m "pushes to development version $NEXT_DEVELOPMENT_VERSION"
