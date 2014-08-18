@@ -193,7 +193,7 @@
 			<id>release</id>
 			<build>
 			   <defaultGoal>
-			      clean deploy nexus-staging:release
+			      clean deploy
 			   </defaultGoal>
 				<plugins>
 					<plugin>
