@@ -25,7 +25,7 @@ from is injected via [JNDI](http://de.wikipedia.org/wiki/Java_Naming_and_Directo
          driverClassName="YOUR_JDBC_DRIVER_CLASSNAME" url="YOUR_JDBC_URL" />
     </Context>
 
-## Configuring the synonym filter in your `schema.xml`
+## Configuring the synonym filter
 
 The `JdbcSynonymFilterFactory` behaves exactly like the Solr [`SynonymFilterFactory`](https://wiki.apache.org/solr/AnalyzersTokenizersTokenFilters#solr.SynonymFilterFactory),
 except that it does load the synonyms from a JDBC database and not from a file resource.
@@ -59,6 +59,18 @@ A complete fieldtype might look like example:
                jndiName="jdbc/synonyms" ignoreCase="false" expand="true" />
          </analyzer>
       </fieldType>
+
+## Configuring the stop word filter
+
+Since version 1.1 there's a `JdbcStopFilterFactory` available, that reads stopwords from a JDBC
+database. It behaves exactly like the Solr [`StopFilterFactory`](https://wiki.apache.org/solr/AnalyzersTokenizersTokenFilters#solr.StopFilterFactory)
+and is meant to be a drop-in replacement:
+
+    <filter class="com.s24.search.solr.analysis.jdbc.JdbcStopFilterFactory"   
+       sql="SELECT stopword FROM stopwords" 
+       jndiName="jdbc/synonyms"/>
+
+The filter has the same configuration parameters as the `JdbcSynonymFilterFactory`.
 
 ## Building the project
 

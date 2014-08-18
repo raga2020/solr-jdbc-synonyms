@@ -4,14 +4,16 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Map;
 
-import org.apache.lucene.analysis.synonym.SynonymFilter;
+import org.apache.lucene.analysis.core.StopFilterFactory;
 import org.apache.lucene.analysis.synonym.SynonymFilterFactory;
 import org.apache.lucene.analysis.util.ResourceLoader;
 
 /**
- * Factory for a {@link SynonymFilter} which loads synonyms from a database.
+ * 
+ * 
+ * @author Shopping24 GmbH, Torsten Bøgh Köster (@tboeghk)
  */
-public class JdbcSynonymFilterFactory extends SynonymFilterFactory {
+public class JdbcStopFilterFactory extends StopFilterFactory {
 
    /**
     * {@link Charset} to encode synonym database with. Has to be the same as in
@@ -30,8 +32,8 @@ public class JdbcSynonymFilterFactory extends SynonymFilterFactory {
     * @param args
     *           Configuration.
     */
-   public JdbcSynonymFilterFactory(Map<String, String> args) {
-      this(args, JndiJdbcReader.createFromSolrParams(args, "synonyms"));
+   public JdbcStopFilterFactory(Map<String, String> args) {
+      this(args, JndiJdbcReader.createFromSolrParams(args, "words"));
    }
 
    /**
@@ -42,14 +44,15 @@ public class JdbcSynonymFilterFactory extends SynonymFilterFactory {
     * @param reader
     *           Reader for synonyms.
     */
-   JdbcSynonymFilterFactory(Map<String, String> args, JdbcReader reader) {
+   JdbcStopFilterFactory(Map<String, String> args, JdbcReader reader) {
       super(args);
 
       this.reader = reader;
    }
-
+   
    @Override
    public void inform(ResourceLoader loader) throws IOException {
       super.inform(new JdbcResourceLoader(loader, reader, UTF8));
    }
+
 }

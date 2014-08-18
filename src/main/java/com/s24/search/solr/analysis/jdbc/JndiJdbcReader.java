@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -21,6 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 
 /**
@@ -56,6 +58,28 @@ public class JndiJdbcReader implements JdbcReader {
    private DataSource dataSource = null;
 
    /**
+    * Create the {@link JndiJdbcReader}. Set synonyms file to a fixed name. This
+    * is needed because our patched resource loader should load the synonyms
+    * exactly once.
+    *
+    * @param args
+    *           Configuration.
+    * @return Configuration.
+    */
+   public static JndiJdbcReader createFromSolrParams(Map<String, String> args, String originalParamName) {
+      Preconditions.checkNotNull(args);
+
+      // Set a fixed synonyms "file".
+      // This "file" will be loaded from the database by the JdbcResourceLoader.
+      args.put(originalParamName, JdbcResourceLoader.DATABASE);
+
+      String name = args.remove(JdbcFilterFactoryParams.JNDI_NAME.toString());
+      String sql = args.remove(JdbcFilterFactoryParams.SQL.toString());
+      String ignore = args.remove(JdbcFilterFactoryParams.IGNORE.toString());
+      return new JndiJdbcReader(name, sql, "true".equals(ignore));
+   }
+
+   /**
     * Constructor.
     *
     * @param jndiName
@@ -80,7 +104,7 @@ public class JndiJdbcReader implements JdbcReader {
     *           JNDI name.
     */
    private static String fixJndiName(String jndiName) {
-      return jndiName.startsWith("java:comp/env/")? jndiName : "java:comp/env/" + jndiName;
+      return jndiName.startsWith("java:comp/env/") ? jndiName : "java:comp/env/" + jndiName;
    }
 
    /**
@@ -108,7 +132,8 @@ public class JndiJdbcReader implements JdbcReader {
       // Check database connection information of data source
       if (dataSource != null) {
          try (Connection connection = dataSource.getConnection()) {
-            // Just get the connection to check if data source parameters are configured correctly.
+            // Just get the connection to check if data source parameters are
+            // configured correctly.
          } catch (SQLException e) {
             dataSource = null;
             LOGGER.error("Failed to connect to database of data source {}.", jndiName, e);

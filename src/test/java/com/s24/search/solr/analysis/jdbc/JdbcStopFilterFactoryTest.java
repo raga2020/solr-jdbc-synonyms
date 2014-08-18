@@ -29,7 +29,7 @@ import org.springframework.mock.jndi.SimpleNamingContextBuilder;
  * Test for {@link JdbcSynonymFilterFactory}.
  */
 @Limit(bytes = 16384)
-public class JdbcSynonymFilterFactoryTest extends LuceneTestCase {
+public class JdbcStopFilterFactoryTest extends LuceneTestCase {
    /**
     * Embedded database. Implements {@link DataSource}.
     */
@@ -45,9 +45,9 @@ public class JdbcSynonymFilterFactoryTest extends LuceneTestCase {
 
       // Add synonym table with some content
       JdbcTemplate template = new JdbcTemplate(database);
-      template.execute("create table synonyms(synonyms varchar(256))");
-      template.execute("insert into synonyms(synonyms) values('test1=>testA,testB')");
-      template.execute("insert into synonyms(synonyms) values('test2=>testC,testD')");
+      template.execute("create table stopwords(stopword varchar(255))");
+      template.execute("insert into stopwords values ('somestring')");
+      template.execute("insert into stopwords values ('anotherstring')");
 
       // Register data source with JNDI
       SimpleNamingContextBuilder builder = SimpleNamingContextBuilder.emptyActivatedContextBuilder();
@@ -62,26 +62,22 @@ public class JdbcSynonymFilterFactoryTest extends LuceneTestCase {
       Map<String, String> args = new HashMap<>();
       args.put(AbstractAnalysisFactory.LUCENE_MATCH_VERSION_PARAM, Version.LUCENE_4_9.toString());
       args.put(JdbcFilterFactoryParams.JNDI_NAME.toString(), "java:comp/env/dataSource");
-      args.put(JdbcFilterFactoryParams.SQL.toString(), "select synonyms from synonyms");
+      args.put(JdbcFilterFactoryParams.SQL.toString(), "select stopword from stopwords");
 
-      Reader input = new StringReader("test1 test2");
+      Reader input = new StringReader("test1 somestring test2 anotherstring");
       // White space tokenizer, to lower case tokenizer.
       MockTokenizer tokenizer = new MockTokenizer(input);
 
-      JdbcSynonymFilterFactory factory = new JdbcSynonymFilterFactory(args);
+      JdbcStopFilterFactory factory = new JdbcStopFilterFactory(args);
       factory.inform(new ClasspathResourceLoader());
 
       try (TokenStream stream = factory.create(tokenizer)) {
          CharTermAttribute attribute = stream.addAttribute(CharTermAttribute.class);
          stream.reset();
          assertTrue(stream.incrementToken());
-         assertEquals("testA", attribute.toString());
+         assertEquals("test1", attribute.toString());
          assertTrue(stream.incrementToken());
-         assertEquals("testB", attribute.toString());
-         assertTrue(stream.incrementToken());
-         assertEquals("testC", attribute.toString());
-         assertTrue(stream.incrementToken());
-         assertEquals("testD", attribute.toString());
+         assertEquals("test2", attribute.toString());
          assertFalse(stream.incrementToken());
          stream.end();
       }
