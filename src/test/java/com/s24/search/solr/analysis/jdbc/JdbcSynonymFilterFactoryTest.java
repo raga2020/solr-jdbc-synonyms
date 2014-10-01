@@ -60,7 +60,7 @@ public class JdbcSynonymFilterFactoryTest extends LuceneTestCase {
    @Test
    public void create() throws Exception {
       Map<String, String> args = new HashMap<>();
-      args.put(AbstractAnalysisFactory.LUCENE_MATCH_VERSION_PARAM, Version.LUCENE_4_10_0.toString());
+      args.put(AbstractAnalysisFactory.LUCENE_MATCH_VERSION_PARAM, Version.LUCENE_4_10_1.toString());
       args.put(JdbcFilterFactoryParams.JNDI_NAME.toString(), "java:comp/env/dataSource");
       args.put(JdbcFilterFactoryParams.SQL.toString(), "select synonyms from synonyms");
 

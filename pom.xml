@@ -65,14 +65,14 @@
 	</prerequisites>
 
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <solr.version>4.10.0</solr.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <solr.version>4.10.1</solr.version>
         <slf4j.version>1.7.7</slf4j.version>
         <guava.version>14.0</guava.version>
         <commons-io.version>2.4</commons-io.version>
         <commons-dbutils.version>1.6</commons-dbutils.version>
         <junit.version>4.11</junit.version>
-        <spring.version>4.0.6.RELEASE</spring.version>
+        <spring.version>4.1.0.RELEASE</spring.version>
         <h2.version>1.4.181</h2.version>
 	</properties>
 
