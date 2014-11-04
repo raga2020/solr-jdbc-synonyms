@@ -2,6 +2,7 @@ package com.s24.search.solr.analysis;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import java.io.IOException;
 import java.util.Map.Entry;
 
 import org.apache.lucene.analysis.Analyzer;
@@ -82,8 +83,15 @@ public class SearcherAwareReloader extends AbstractSolrEventListener {
     */
    private void inform(String type, String name, Object o, SolrIndexSearcher searcher) {
       if (o instanceof SearcherAware) {
-         logger.info("Informing searcher aware token {} {} ({}) about a new searcher.", type, name, o.getClass().getName());
-         ((SearcherAware) o).informNewSearcher(searcher);
+         logger.info("Informing searcher aware {} {} ({}) about a new searcher.", 
+               type, name, o.getClass().getName());
+         try {
+            ((SearcherAware) o).informNewSearcher(searcher);
+         } catch (IOException e) {
+            logger.error("Failed to inform {} {} ({}) about a new searcher.", 
+                  type, name, o.getClass().getName(), e);
+            throw new IllegalArgumentException("Failed to inform about a new searcher.", e);
+         }
       }
    }
    

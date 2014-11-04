@@ -1,5 +1,7 @@
 package com.s24.search.solr.analysis;
 
+import java.io.IOException;
+
 import org.apache.solr.search.SolrIndexSearcher;
 
 /**
@@ -11,6 +13,8 @@ public interface SearcherAware {
     * 
     * @param searcher
     *           The new searcher.
+    * @throws IOException
+    *            In case of any problems.
     */
-   void informNewSearcher(SolrIndexSearcher searcher);
+   void informNewSearcher(SolrIndexSearcher searcher) throws IOException;
 }
