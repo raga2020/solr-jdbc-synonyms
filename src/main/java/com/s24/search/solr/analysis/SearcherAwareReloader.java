@@ -48,21 +48,11 @@ public class SearcherAwareReloader extends AbstractSolrEventListener {
 
          Analyzer indexAnalyzer = fieldType.getQueryAnalyzer();
          Analyzer queryAnalyzer = fieldType.getQueryAnalyzer();
-         
-         if (indexAnalyzer != queryAnalyzer) {
-            inform("index analyzer", name, indexAnalyzer, searcher);
-            if (indexAnalyzer instanceof TokenizerChain) {
-               inform(name, (TokenizerChain) indexAnalyzer, searcher);
-            }
-            inform("query analyzer", name, queryAnalyzer, searcher);
-            if (indexAnalyzer instanceof TokenizerChain) {
-               inform(name, (TokenizerChain) queryAnalyzer, searcher);
-            }
-         } else {
-            inform("analyzer", name, indexAnalyzer, searcher);
-            if (indexAnalyzer instanceof TokenizerChain) {
-               inform(name, (TokenizerChain) indexAnalyzer, searcher);
-            }
+         if (indexAnalyzer instanceof TokenizerChain) {
+            inform(name, (TokenizerChain) indexAnalyzer, searcher);
+         }
+         if (indexAnalyzer != queryAnalyzer && queryAnalyzer instanceof TokenizerChain) {
+            inform(name, (TokenizerChain) queryAnalyzer, searcher);
          }
       }
 
