@@ -16,5 +16,5 @@ public interface SearcherAware {
     * @throws IOException
     *            In case of any problems.
     */
-   void informNewSearcher(SolrIndexSearcher searcher) throws IOException;
+   void inform(SolrIndexSearcher searcher) throws IOException;
 }

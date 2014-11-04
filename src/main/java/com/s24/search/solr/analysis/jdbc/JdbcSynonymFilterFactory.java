@@ -52,7 +52,7 @@ public class JdbcSynonymFilterFactory extends SynonymFilterFactory implements Se
    }
 
    @Override
-   public void informNewSearcher(SolrIndexSearcher searcher) {
+   public void inform(SolrIndexSearcher searcher) {
       try {
          inform(searcher.getCore().getResourceLoader());
       } catch (IOException e) {
