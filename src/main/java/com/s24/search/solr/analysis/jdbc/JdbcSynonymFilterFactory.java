@@ -7,11 +7,14 @@ import java.util.Map;
 import org.apache.lucene.analysis.synonym.SynonymFilter;
 import org.apache.lucene.analysis.synonym.SynonymFilterFactory;
 import org.apache.lucene.analysis.util.ResourceLoader;
+import org.apache.solr.search.SolrIndexSearcher;
+
+import com.s24.search.solr.analysis.SearcherAware;
 
 /**
  * Factory for a {@link SynonymFilter} which loads synonyms from a database.
  */
-public class JdbcSynonymFilterFactory extends SynonymFilterFactory {
+public class JdbcSynonymFilterFactory extends SynonymFilterFactory implements SearcherAware {
 
    /**
     * {@link Charset} to encode synonym database with. Has to be the same as in
@@ -46,6 +49,15 @@ public class JdbcSynonymFilterFactory extends SynonymFilterFactory {
       super(args);
 
       this.reader = reader;
+   }
+
+   @Override
+   public void informNewSearcher(SolrIndexSearcher searcher) {
+      try {
+         inform(searcher.getCore().getResourceLoader());
+      } catch (IOException e) {
+         throw new IllegalArgumentException("Failed to notify about new searcher.", e);
+      }
    }
 
    @Override
