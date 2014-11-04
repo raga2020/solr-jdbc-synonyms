@@ -73,13 +73,13 @@ public class SearcherAwareReloader extends AbstractSolrEventListener {
     */
    private void inform(String type, String name, Object o, SolrIndexSearcher searcher) {
       if (o instanceof SearcherAware) {
-         logger.info("Informing searcher aware {} {} ({}) about a new searcher.", 
-               type, name, o.getClass().getName());
+         logger.info("Informing searcher aware {} ({}) of field type {} about a new searcher.", 
+               type, o.getClass().getName(), name);
          try {
             ((SearcherAware) o).inform(searcher);
          } catch (IOException e) {
-            logger.error("Failed to inform {} {} ({}) about a new searcher.", 
-                  type, name, o.getClass().getName(), e);
+            logger.error("Failed to inform {} ({}) of field type {} about a new searcher.", 
+                  type, o.getClass().getName(), name, e);
             throw new IllegalArgumentException("Failed to inform about a new searcher.", e);
          }
       }
