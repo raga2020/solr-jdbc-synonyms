@@ -10,3 +10,6 @@ hs_err_pid*
 .project
 .DS_Store
 /target/
+.idea
+*.iml
+out
