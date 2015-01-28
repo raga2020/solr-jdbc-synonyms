@@ -3,7 +3,7 @@
    <groupId>com.s24.search.solr</groupId>
    <artifactId>solr-jdbc-synonyms</artifactId>
    <name>solr-jdbc-synonyms</name>
-   <version>1.3.3-SNAPSHOT</version>
+   <version>1.3.3</version>
    <description>A Solr synonym filter loading synonyms from JDBC</description>
    <url>https://github.com/shopping24/solr-jdbc-synonyms</url>
    <licenses>
