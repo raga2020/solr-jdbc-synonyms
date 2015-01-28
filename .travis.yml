@@ -1,3 +1,8 @@
 language: java
 jdk:
   - oraclejdk7
+
+# blacklist
+branches:
+  except:
+    - jndi-jdbc-outsourcing

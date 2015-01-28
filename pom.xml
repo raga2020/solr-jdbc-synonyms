@@ -73,7 +73,8 @@
       <mockito.version>1.9.5</mockito.version>
       <slf4j.version>1.7.7</slf4j.version>
       <solr.version>4.10.1</solr.version>
-      <spring.version>4.1.0.RELEASE</spring.version>
+      <solr-jdbc.version>1.0.1</solr-jdbc.version>
+      <spring.version>4.1.4.RELEASE</spring.version>
    </properties>
 
    <build>
@@ -200,6 +201,11 @@
          <version>${h2.version}</version>
          <scope>test</scope>
       </dependency>
+      <dependency>
+         <groupId>com.s24.search.solr</groupId>
+         <artifactId>solr-jdbc</artifactId>
+         <version>${solr-jdbc.version}</version>
+      </dependency>
    </dependencies>
 
    <distributionManagement>
@@ -250,7 +256,7 @@
                <plugin>
                   <groupId>org.apache.maven.plugins</groupId>
                   <artifactId>maven-gpg-plugin</artifactId>
-                  <version>1.5</version>
+                  <version>1.6</version>
                   <executions>
                      <execution>
                         <id>sign-artifacts</id>
@@ -260,7 +266,6 @@
                         </goals>
                         <configuration>
                            <executable>gpg2</executable>
-                           <keyname>F87FE068</keyname>
                         </configuration>
                      </execution>
                   </executions>
@@ -268,7 +273,7 @@
                <plugin>
                   <groupId>org.sonatype.plugins</groupId>
                   <artifactId>nexus-staging-maven-plugin</artifactId>
-                  <version>1.6.2</version>
+                  <version>1.6.5</version>
                   <extensions>true</extensions>
                   <configuration>
                      <serverId>ossrh</serverId>
