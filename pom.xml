@@ -73,7 +73,7 @@
       <junit.version>4.12</junit.version>
       <mockito.version>1.9.5</mockito.version>
       <slf4j.version>1.7.10</slf4j.version>
-      <solr.version>4.10.4</solr.version>
+      <solr.version>5.0.0</solr.version>
       <solr-jdbc.version>1.0.1</solr-jdbc.version>
       <spring.version>4.1.5.RELEASE</spring.version>
    </properties>

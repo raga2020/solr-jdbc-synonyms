@@ -13,6 +13,7 @@ import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.util.AbstractAnalysisFactory;
 import org.apache.lucene.analysis.util.ClasspathResourceLoader;
+import org.apache.lucene.util.AttributeFactory;
 import org.apache.lucene.util.LuceneTestCase;
 import org.apache.lucene.util.TestRuleLimitSysouts.Limit;
 import org.apache.lucene.util.Version;
@@ -60,13 +61,13 @@ public class JdbcStopFilterFactoryTest extends LuceneTestCase {
    @Test
    public void create() throws Exception {
       Map<String, String> args = new HashMap<>();
-      args.put(AbstractAnalysisFactory.LUCENE_MATCH_VERSION_PARAM, Version.LUCENE_4_10_4.toString());
+      args.put(AbstractAnalysisFactory.LUCENE_MATCH_VERSION_PARAM, Version.LUCENE_5_0_0.toString());
       args.put(JdbcFilterFactoryParams.JNDI_NAME.toString(), "java:comp/env/dataSource");
       args.put(JdbcFilterFactoryParams.SQL.toString(), "select stopword from stopwords");
 
-      Reader input = new StringReader("test1 somestring test2 anotherstring");
       // White space tokenizer, to lower case tokenizer.
-      MockTokenizer tokenizer = new MockTokenizer(input);
+      MockTokenizer tokenizer = new MockTokenizer();
+      tokenizer.setReader(new StringReader("test1 somestring test2 anotherstring"));
 
       JdbcStopFilterFactory factory = new JdbcStopFilterFactory(args);
       factory.inform(new ClasspathResourceLoader());
