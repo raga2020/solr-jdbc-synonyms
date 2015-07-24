@@ -1,6 +1,5 @@
 package com.s24.search.solr.analysis.jdbc;
 
-import java.io.Reader;
 import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +12,6 @@ import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.util.AbstractAnalysisFactory;
 import org.apache.lucene.analysis.util.ClasspathResourceLoader;
-import org.apache.lucene.util.AttributeFactory;
 import org.apache.lucene.util.LuceneTestCase;
 import org.apache.lucene.util.TestRuleLimitSysouts.Limit;
 import org.apache.lucene.util.Version;
@@ -62,8 +60,8 @@ public class JdbcStopFilterFactoryTest extends LuceneTestCase {
    public void create() throws Exception {
       Map<String, String> args = new HashMap<>();
       args.put(AbstractAnalysisFactory.LUCENE_MATCH_VERSION_PARAM, Version.LUCENE_5_0_0.toString());
-      args.put(JdbcFilterFactoryParams.JNDI_NAME.toString(), "java:comp/env/dataSource");
-      args.put(JdbcFilterFactoryParams.SQL.toString(), "select stopword from stopwords");
+      args.put(JdbcReaderFactoryParams.JNDI_NAME.toString(), "java:comp/env/dataSource");
+      args.put(JdbcReaderFactoryParams.SQL.toString(), "select stopword from stopwords");
 
       // White space tokenizer, to lower case tokenizer.
       MockTokenizer tokenizer = new MockTokenizer();

@@ -1,8 +1,6 @@
 package com.s24.search.solr.analysis.jdbc;
 
-import java.io.Reader;
 import java.io.StringReader;
-import java.text.Collator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,11 +9,9 @@ import javax.sql.DataSource;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.lucene.analysis.MockTokenizer;
 import org.apache.lucene.analysis.TokenStream;
-import org.apache.lucene.analysis.core.WhitespaceTokenizer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.util.AbstractAnalysisFactory;
 import org.apache.lucene.analysis.util.ClasspathResourceLoader;
-import org.apache.lucene.collation.CollationAttributeFactory;
 import org.apache.lucene.util.LuceneTestCase;
 import org.apache.lucene.util.TestRuleLimitSysouts.Limit;
 import org.apache.lucene.util.Version;
@@ -64,8 +60,8 @@ public class JdbcSynonymFilterFactoryTest extends LuceneTestCase {
    public void create() throws Exception {
       Map<String, String> args = new HashMap<>();
       args.put(AbstractAnalysisFactory.LUCENE_MATCH_VERSION_PARAM, Version.LUCENE_5_0_0.toString());
-      args.put(JdbcFilterFactoryParams.JNDI_NAME.toString(), "java:comp/env/dataSource");
-      args.put(JdbcFilterFactoryParams.SQL.toString(), "select synonyms from synonyms");
+      args.put(JdbcReaderFactoryParams.JNDI_NAME.toString(), "java:comp/env/dataSource");
+      args.put(JdbcReaderFactoryParams.SQL.toString(), "select synonyms from synonyms");
 
       // White space tokenizer, to lower case tokenizer.
       MockTokenizer tokenizer = new MockTokenizer();

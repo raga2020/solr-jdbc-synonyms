@@ -4,12 +4,12 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Map;
 
+import org.apache.lucene.analysis.core.StopFilter;
 import org.apache.lucene.analysis.core.StopFilterFactory;
-import org.apache.lucene.analysis.synonym.SynonymFilterFactory;
 import org.apache.lucene.analysis.util.ResourceLoader;
 
 /**
- * 
+ * Factory for a {@link StopFilter} which loads stop words from a database.
  * 
  * @author Shopping24 GmbH, Torsten Bøgh Köster (@tboeghk)
  */
@@ -17,7 +17,7 @@ public class JdbcStopFilterFactory extends StopFilterFactory {
 
    /**
     * {@link Charset} to encode synonym database with. Has to be the same as in
-    * the {@link SynonymFilterFactory}.
+    * the {@link StopFilterFactory}.
     */
    private static final Charset UTF8 = Charset.forName("UTF-8");
 
@@ -33,7 +33,7 @@ public class JdbcStopFilterFactory extends StopFilterFactory {
     *           Configuration.
     */
    public JdbcStopFilterFactory(Map<String, String> args) {
-      this(args, JndiJdbcReader.createFromSolrParams(args, "words"));
+      this(args, JdbcReaderFactory.createFromSolrParams(args, "words"));
    }
 
    /**
@@ -54,5 +54,4 @@ public class JdbcStopFilterFactory extends StopFilterFactory {
    public void inform(ResourceLoader loader) throws IOException {
       super.inform(new JdbcResourceLoader(loader, reader, UTF8));
    }
-
 }
