@@ -13,6 +13,8 @@ import com.s24.search.solr.analysis.SearcherAware;
 
 /**
  * Factory for a {@link SynonymFilter} which loads synonyms from a database.
+ *
+ * @author Shopping24 GmbH, Torsten Bøgh Köster (@tboeghk)
  */
 public class JdbcSynonymFilterFactory extends SynonymFilterFactory implements SearcherAware {
 
@@ -34,7 +36,7 @@ public class JdbcSynonymFilterFactory extends SynonymFilterFactory implements Se
     *           Configuration.
     */
    public JdbcSynonymFilterFactory(Map<String, String> args) {
-      this(args, JndiJdbcReader.createFromSolrParams(args, "synonyms"));
+      this(args, JdbcReaderFactory.createFromSolrParams(args, "synonyms"));
    }
 
    /**
