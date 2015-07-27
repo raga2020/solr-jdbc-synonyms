@@ -3,6 +3,9 @@ solr-jdbc-synonyms
 
 ![travis ci build status](https://travis-ci.org/shopping24/solr-jdbc-synonyms.png)
 
+DEPRECATED! From solr-jdbc version 2.1.0 it includes solr-jdbc-synonyms.
+Please use [solr-jdbc](https://github.com/shopping24/solr-jdbc) instead.
+
 A Solr synonym filter for reading synonyms out of JDBC. The `DataSource` to retrieve synonyms
 from is injected via [JNDI](http://de.wikipedia.org/wiki/Java_Naming_and_Directory_Interface).
 
