@@ -60,8 +60,8 @@ public class JdbcStopFilterFactoryTest extends LuceneTestCase {
    public void create() throws Exception {
       Map<String, String> args = new HashMap<>();
       args.put(AbstractAnalysisFactory.LUCENE_MATCH_VERSION_PARAM, Version.LUCENE_5_0_0.toString());
-      args.put(JdbcReaderFactoryParams.DATASOURCE.toString(), "java:comp/env/dataSource");
-      args.put(JdbcReaderFactoryParams.SQL.toString(), "select stopword from stopwords");
+      args.put(JdbcReaderFactoryParams.DATASOURCE, "java:comp/env/dataSource");
+      args.put(JdbcReaderFactoryParams.SQL, "select stopword from stopwords");
 
       // White space tokenizer, to lower case tokenizer.
       MockTokenizer tokenizer = new MockTokenizer();
